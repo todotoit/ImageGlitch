@@ -1,19 +1,17 @@
 import UISelection from "./ui-selection.js";
 
 const path = "assets/src-3.jpg";
+const canvas = document.getElementById('my-canvas');
+
 var img = new Image();
 img.src = path;
 img.onload = function () {
     draw(this);
 };
 
-var canvas = document.getElementById('my-canvas');
-
-// init pixel sorting worker
-var butter = new Worker('node_modules/butter.js/src/butter-worker.js');
-
 // init selection tool
-UISelection.setCallback(slices)
+UISelection.callback = slices
+UISelection.init()
 
 // draw base image
 function draw(img) {
@@ -41,16 +39,16 @@ function slices(x, y, w, h) {
             canvas.drawImage(img, 0, y + i * verticalSlices, img.width, i * verticalSlices + verticalSlices, horizOffset, y + getRandom(i * verticalSlices / 1.25, i * verticalSlices), img.width, i * verticalSlices + verticalSlices);
         }
     }
+
+    // sobelFilter(canvas)
+    // pixelSort(canvas)
 }
 
-butter.addEventListener('message', function afterSort(e) {
-    console.log("Worker done")
-    canvas.putImageData(e.data.imageData, 0, 0);
-    sort++
-    if (sort <= sortLimit) pixelSort(e.data.imageData)
-}, false);
-
-function pixelSort(imageData) {
+function pixelSort(canvas) {
+    var imageData = canvas.getImageData(0, 0, content.width, content.height);
+    var butter = new Worker('./butter-worker.js');
+    let sort = 0;
+    let sortLimit = 0
     butter.postMessage({
         imageData: imageData,
         width: getRandom(content.width / 2, content.width),
@@ -59,6 +57,12 @@ function pixelSort(imageData) {
         iterations: getRandom(0, 6),
         threshold: -10000000
     });
+    butter.onmessage = function afterSort(e) {
+        console.log("Worker done")
+        canvas.putImageData(e.data.imageData, 0, 0);
+        sort++
+        if (sort <= sortLimit) pixelSort(e.data.imageData)
+    };
 }
 
 // sobel filter for edge detection
