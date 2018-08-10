@@ -1,6 +1,6 @@
 import UISelection from "./ui-selection.js";
 
-const path = "assets/src-3.jpg";
+const path = "assets/iside.png";
 const canvas = document.getElementById('my-canvas');
 
 var img = new Image();
@@ -13,30 +13,34 @@ img.onload = function () {
 UISelection.callback = slices
 UISelection.init()
 
+const imgScaleFactor = 1.9
 // draw base image
 function draw(img) {
     let sort = 0;
     let sortLimit = 0
     var content = document.getElementById("content");
     var canvas = content.getContext("2d");
-    canvas.drawImage(img, 0, 0, img.width, img.height);
+    canvas.drawImage(img, 0, 0, img.width*imgScaleFactor, img.height*imgScaleFactor);
 }
 
 // slice and offset image
 function slices(x, y, w, h) {
-    x = x.map(0, 620, 0, 2480);
-    y = y.map(0, 877, 0, 3508);
-    w = w.map(0, 620, 0, 2480);
-    h = h.map(0, 877, 0, 3508);
+    x = x.map(0, 620, 0, img.width);
+    y = y.map(0, 877, 0, img.height);
+    w = w.map(0, 620, 0, img.width);
+    h = h.map(0, 877, 0, img.height);
     var content = document.getElementById("content");
     var canvas = content.getContext("2d");
     var verticalSlices = Math.round(h / 20);
+    var horizontalSlices = Math.round(w / 20);
     var maxHorizOffset = w/5;
+    var maxVertOffset = h/5;
     for (var i = 0; i < verticalSlices; i++) {
         if (Math.random() > .01) {
             var horizOffset = getRandom(-Math.abs(maxHorizOffset), maxHorizOffset);
+            var vertOffset = getRandom(-Math.abs(maxVertOffset), maxVertOffset);
             //canvas.drawImage(img, x, y, x + w, y + h, horizOffset, getRandom(i * verticalSlices / 1.25, i * verticalSlices), img.width, i * verticalSlices + verticalSlices);
-            canvas.drawImage(img, 0, y + i * verticalSlices, img.width, i * verticalSlices + verticalSlices, horizOffset, y + getRandom(i * verticalSlices / 1.25, i * verticalSlices), img.width, i * verticalSlices + verticalSlices);
+            canvas.drawImage(img, 0, y + i * verticalSlices, img.width, i * verticalSlices + verticalSlices, horizOffset, (y + getRandom(i * verticalSlices / 1.25, i * verticalSlices))*imgScaleFactor, img.width*imgScaleFactor, (i * verticalSlices + verticalSlices)*imgScaleFactor);
         }
     }
 
