@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <aside id="menu">
+    <div class="slices">
+      <h4>General options</h4>
+      <div>
+        <label>Num of slices:</label>
+        <input type="number" name="slices">
+      </div>
+      <div style="margin-top: 1rem;">
+        <label>Direction:</label>
+        <form name="direction">
+          <input type="radio" name="direction" value="horizontal"> Horizontal
+          <input type="radio" name="direction" value="vertical"> Vertical
+        </form>
+      </div>
+      <div style="margin-top: 1rem;">
+        <button name="clear">Clear canvas</button>
+      </div>
+    </div>
+    <div class="front">
+      <h3>Image 1</h3>
+      <div class="src">
+        <div>
+          <label>Image src</label>
+          <div style="margin-top: 1rem;">
+            <input type="file" accept="image/png, image/jpeg, image/tiff" name="source"/>
+          </div>
+        </div>
+        <img class="source" src="../assets/iside.png">
+      </div>
+      <div style="margin-top: 1rem;">
+        Invert slices: <input type="checkbox" name="invert">
+      </div>
+      <div class="explode">
+        <h4>Explode options</h4>
+        <div>
+          <label>Position:</label>
+          <form name="frontImgPosition">
+            <input type="radio" name="position" value="top"> Top
+            <input type="radio" name="position" value="center"> Center
+            <input type="radio" name="position" value="bottom"> Bottom
+          </form>
+        </div>
+      </div>
+      <div style="margin-top: 1rem;">
+        <button name="draw">Full image</button> |
+        <button name="slice">Sliced image</button> |
+        <button name="explode">Exploded image</button>
+      </div>
+    </div>
+    <div class="background">
+      <h3>Image 2</h3>
+      <div class="src">
+        <div>
+          <label>Image src</label>
+          <div style="margin-top: 1rem;">
+            <input type="file" accept="image/png, image/jpeg, image/tiff" name="source"/>
+          </div>
+        </div>
+        <img class="back" src="../assets/isideB.png">
+      </div>
+      <div style="margin-top: 1rem;">
+        Invert slices: <input type="checkbox" name="invert">
+      </div>
+      <div class="explode">
+        <h4>Explode options</h4>
+        <div>
+          <label>Position:</label>
+          <form name="backImgPosition">
+            <input type="radio" name="position" value="top"> Top
+            <input type="radio" name="position" value="center"> Center
+            <input type="radio" name="position" value="bottom"> Bottom
+          </form>
+        </div>
+      </div>
+      <div style="margin-top: 1rem;">
+        <button name="draw">Full image</button> |
+        <button name="slice">Sliced image</button> |
+        <button name="explode">Exploded image</button>
+      </div>
+    </div>
+  </aside>
+
+  <canvas id="content" width="2269" height="3407"></canvas>
+
+  <script type="text/javascript" src="main.js"></script>
+</body>
+</html>
+
